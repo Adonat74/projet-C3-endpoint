@@ -12,7 +12,7 @@ class Chiffre(Base):
 
     id = Column(Integer, primary_key=True, nullable=False)
     chiffre_affaire = Column(Integer, nullable=False)
-    month = Column(String, nullable=False)
+    month = Column(Integer, nullable=False)
     year = Column(Integer, nullable=False)
     published = Column(Boolean, server_default="TRUE", nullable=False)
     created_at = Column(

@@ -5,7 +5,7 @@ from typing import Optional
 
 class ChiffreBase(BaseModel):
     chiffre_affaire: int
-    month: str
+    month: int
     year: int
     published: bool = True
 
@@ -36,6 +36,7 @@ class Chiffre(ChiffreBase):
     created_at: datetime
     owner_id: int
     owner: UserOut
+    ca_france: int
 
     class Config:
         orm_mode = True

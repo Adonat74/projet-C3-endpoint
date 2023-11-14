@@ -3,7 +3,9 @@ from typing import List
 from sqlalchemy.orm import Session
 from .. import models, schemas, oauth2
 from ..database import engine, get_db
-from .. import oauth2
+
+#
+from sqlalchemy.sql import func
 
 
 router = APIRouter(tags=["Chiffres"])
@@ -38,4 +40,6 @@ def create_chiffres(
     db.commit()
     db.refresh(new_chiffre)
 
-    return new_chiffre
+    france = db.query(func.sum(models.Chiffre.chiffre_affaire))
+
+    return new_chiffre, france

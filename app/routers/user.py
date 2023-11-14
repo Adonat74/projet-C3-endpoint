@@ -31,7 +31,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     email_sender = settings.email_sender
     email_password = settings.email_password
     subject = "Confirmation création de compte"
-    body = f"""Bienvenue {new_user.first_name}! Vous avez créé un compte chez nous!"""
+    body = f"Bienvenue {new_user.first_name}! Vous avez créé un compte chez nous!"
 
     em = EmailMessage()
     em["From"] = email_sender
