@@ -4,9 +4,16 @@ from .. import models, schemas, utils
 from ..database import engine, get_db
 from .. import oauth2
 
+#
+from ..config import settings
+from email.message import EmailMessage
+import ssl
+import smtplib
+
 router = APIRouter(tags=["Users"])
 
 
+# create user -----------------------------------------------------#
 @router.post(
     "/register", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut
 )
@@ -20,9 +27,28 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
+    # send email#
+    email_sender = settings.email_sender
+    email_password = settings.email_password
+    subject = "Confirmation création de compte"
+    body = f"""Bienvenue {new_user.first_name}! Vous avez créé un compte chez nous!"""
+
+    em = EmailMessage()
+    em["From"] = email_sender
+    em["To"] = new_user.email
+    em["Subject"] = subject
+    em.set_content(body)
+
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as smtp:
+        smtp.login(email_sender, email_password)
+        smtp.sendmail(email_sender, new_user.email, em.as_string())
+
     return new_user
 
 
+# get user data-----------------------------------------------------#
 @router.get("/user/{id}", response_model=schemas.UserOut)
 def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
@@ -35,6 +61,7 @@ def get_user(id: int, db: Session = Depends(get_db)):
     return user
 
 
+# update user data -----------------------------------------------------#
 @router.put("/user-update/{id}", response_model=schemas.UserOut)
 def update_user(
     id: int,
