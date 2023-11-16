@@ -11,7 +11,7 @@ from sqlalchemy.sql import func
 router = APIRouter(tags=["Chiffres"])
 
 
-# *********************GET users's all****************************************************************
+# *********************GET users's chiffres****************************************************************
 @router.get("/historique-chiffres-affaire", response_model=List[schemas.Chiffre])
 def get_chiffres(
     db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)
@@ -24,7 +24,7 @@ def get_chiffres(
     return chiffres
 
 
-# *********************POST*******************************************************************
+# *********************POST chiffre*******************************************************************
 @router.post(
     "/nouveau-chiffre-affaire",
     status_code=status.HTTP_201_CREATED,

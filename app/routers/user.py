@@ -15,7 +15,9 @@ router = APIRouter(tags=["Users"])
 
 # create user -----------------------------------------------------#
 @router.post(
-    "/register", status_code=status.HTTP_201_CREATED, response_model=schemas.UserOut
+    "/créer-un-compte",
+    status_code=status.HTTP_201_CREATED,
+    response_model=schemas.UserOut,
 )
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     # hash the password
@@ -49,7 +51,7 @@ def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
 
 
 # get user data-----------------------------------------------------#
-@router.get("/user/{id}", response_model=schemas.UserOut)
+@router.get("/utilisateur/{id}", response_model=schemas.UserOut)
 def get_user(id: int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
@@ -62,7 +64,7 @@ def get_user(id: int, db: Session = Depends(get_db)):
 
 
 # update user data -----------------------------------------------------#
-@router.put("/user-update/{id}", response_model=schemas.UserOut)
+@router.put("/modifier-utilisateur/{id}", response_model=schemas.UserOut)
 def update_user(
     id: int,
     updated_user: schemas.UserCreate,

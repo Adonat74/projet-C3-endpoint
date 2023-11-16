@@ -11,7 +11,7 @@ from . import models
 
 
 def email(db: Session = Depends(get_db)):
-    # if date.today().day != 14:
+    # if date.today().day != 5:
     #     return
 
     users = db.query(models.User).All()
