@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from .. import models, schemas, oauth2
 from ..database import engine, get_db
 
-#
+
 from sqlalchemy.sql import func
 
 
@@ -40,6 +40,6 @@ def create_chiffres(
     db.commit()
     db.refresh(new_chiffre)
 
-    france = db.query(func.sum(models.Chiffre.chiffre_affaire))
+    # france = db.query(func.sum(models.Chiffre.chiffre_affaire))
 
-    return new_chiffre, france
+    return new_chiffre  # , france
