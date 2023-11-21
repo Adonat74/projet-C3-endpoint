@@ -2,7 +2,9 @@ from fastapi import FastAPI, Response, status, HTTPException, Depends, APIRouter
 from typing import List
 from sqlalchemy.orm import Session
 from .. import models, schemas, oauth2
-from ..database import engine, get_db
+from ..database import engine, get_db, SessionLocal
+
+from sqlalchemy import text
 
 
 from sqlalchemy.sql import func
@@ -36,10 +38,9 @@ def create_chiffres(
     current_user: int = Depends(oauth2.get_current_user),
 ):
     new_chiffre = models.Chiffre(owner_id=current_user.id, **chiffre.dict())
+
     db.add(new_chiffre)
     db.commit()
     db.refresh(new_chiffre)
 
-    # france = db.query(func.sum(models.Chiffre.chiffre_affaire))
-
-    return new_chiffre  # , france
+    return new_chiffre

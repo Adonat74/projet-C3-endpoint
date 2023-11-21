@@ -36,7 +36,7 @@ class Chiffre(ChiffreBase):
     created_at: datetime
     owner_id: int
     owner: UserOut
-    # ca_france: int
+    # chiffre_affaire: int
 
     class Config:
         orm_mode = True
